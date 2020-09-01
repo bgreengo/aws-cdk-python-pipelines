@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    author="author",
+    author="Blake Green",
 
     package_dir={"": "aws_cdk_python_pipelines"},
     packages=setuptools.find_packages(where="aws_cdk_python_pipelines"),
