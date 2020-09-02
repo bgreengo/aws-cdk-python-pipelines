@@ -1,7 +1,14 @@
+# AWS CDK Python Pipelines
 
-# Welcome to your CDK Python project!
+This project is from the demo in the AWS Tech Talk -> https://youtu.be/1ps0Wh19MHQ
 
-This is a blank project for Python development with CDK.
+The idea is that you start with an application like a webservice with API GW and Lambda which is built in the main stack of the CDK application.
+
+Next, the pipeline stack builds out the CodePipeline and uses the event source as the Github repo.
+
+Then the webservice stage is included to send the webservice through the pipeline and ensure each stage can pass properly.
+
+Unit tests and 
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
