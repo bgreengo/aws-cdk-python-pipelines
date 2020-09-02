@@ -3,7 +3,7 @@ from os import path
 from aws_cdk import core
 import aws_cdk.aws_lambda as lmb
 import aws_cdk.aws_apigateway as apigw
-
+import aws_cdk.aws_codedeploy as codedeploy
 
 class AwsCdkPythonPipelinesStack(core.Stack):
 
@@ -17,10 +17,20 @@ class AwsCdkPythonPipelinesStack(core.Stack):
             handler='handler.handler',
             code=lmb.Code.from_asset(path.join(this_dir, 'lambda'))
         )
+        # For canary deployments
+        alias = lmb.Alias(self, 'HandlerAlias',
+            alias_name='Current',
+            version=handler.current_version
+        )
 
         gw = apigw.LambdaRestApi(self, 'Gateway',
             description='Endpoint for app',
-            handler=handler.current_version
+            handler=alias
+        )
+
+        codedeploy.LambdaDeploymentGroup(self, 'Deploy',
+            alias=alias,
+            deployment_config=codedeploy.LambdaDeploymentConfig.CANARY_10_PERCENT_10_MINUTES
         )
 
         self.url_output = core.CfnOutput(self, 'Url',
